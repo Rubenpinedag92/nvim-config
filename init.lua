@@ -214,6 +214,14 @@ vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude
 -- Atajos para mover líneas hacia arriba y abajo
 vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { desc = 'Mover línea hacia abajo' })
 vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Mover línea hacia arriba' })
+
+-- Configurar netrw para vista de árbol expandida por defecto
+vim.g.netrw_liststyle = 3
+vim.g.netrw_browse_split = 0
+vim.g.netrw_altv = 1
+vim.g.netrw_winsize = 25
+vim.g.netrw_banner = 0
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -416,11 +424,14 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          mappings = {
+            i = {
+              ['<c-enter>'] = 'to_fuzzy_refine',
+              ['<Tab>'] = 'select_default',
+            },
+          },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -694,6 +705,7 @@ require('lazy').setup({
         --
 
         cssls = {},
+        ts_ls = {},
 
         lua_ls = {
           -- cmd = { ... },
