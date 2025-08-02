@@ -956,9 +956,6 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
-    dependencies = {
-      'windwp/nvim-ts-autotag',
-    },
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = {
@@ -987,10 +984,22 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
-      autotag = {
-        enable = true,
-      },
     },
+  },
+
+  -- Auto close HTML/JSX tags
+  {
+    'windwp/nvim-ts-autotag',
+    dependencies = 'nvim-treesitter/nvim-treesitter',
+    config = function()
+      require('nvim-ts-autotag').setup({
+        opts = {
+          enable_close = true,
+          enable_rename = true,
+          enable_close_on_slash = false
+        },
+      })
+    end,
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
