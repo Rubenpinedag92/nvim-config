@@ -1,4 +1,4 @@
---[[
+--[[init
 
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
@@ -704,7 +704,28 @@ require('lazy').setup({
         -- ts_ls = {},
         --
 
-        cssls = {},
+        cssls = {
+          settings = {
+            css = {
+              validate = true,
+              lint = {
+                unknownAtRules = 'ignore',
+              },
+            },
+            scss = {
+              validate = true,
+              lint = {
+                unknownAtRules = 'ignore',
+              },
+            },
+            less = {
+              validate = true,
+              lint = {
+                unknownAtRules = 'ignore',
+              },
+            },
+          },
+        },
         ts_ls = {},
 
         lua_ls = {
@@ -992,13 +1013,13 @@ require('lazy').setup({
     'windwp/nvim-ts-autotag',
     dependencies = 'nvim-treesitter/nvim-treesitter',
     config = function()
-      require('nvim-ts-autotag').setup({
+      require('nvim-ts-autotag').setup {
         opts = {
           enable_close = true,
           enable_rename = true,
-          enable_close_on_slash = false
+          enable_close_on_slash = false,
         },
-      })
+      }
     end,
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -1035,12 +1056,12 @@ require('lazy').setup({
       vim.opt.foldlevelstart = 99
       vim.opt.foldenable = true
 
-      require('ufo').setup({
+      require('ufo').setup {
         provider_selector = function(bufnr, filetype, buftype)
-          return {'treesitter', 'indent'}
-        end
-      })
-      
+          return { 'treesitter', 'indent' }
+        end,
+      }
+
       -- Keymaps for folding
       vim.keymap.set('n', 'zR', require('ufo').openAllFolds, { desc = 'Open all folds' })
       vim.keymap.set('n', 'zM', require('ufo').closeAllFolds, { desc = 'Close all folds' })
@@ -1050,7 +1071,45 @@ require('lazy').setup({
           vim.lsp.buf.hover()
         end
       end, { desc = 'Peek fold or show hover' })
-    end
+    end,
+  },
+
+  -- Color picker and colorizer
+  {
+    'uga-rosa/ccc.nvim',
+    event = 'VimEnter',
+    config = function()
+      require('ccc').setup {
+        highlighter = {
+          auto_enable = true,
+          lsp = true,
+        },
+        recognize = {
+          input = true,
+          output = true,
+        },
+        inputs = {
+          require('ccc').input.hsl,
+          require('ccc').input.rgb,
+          require('ccc').input.cmyk,
+        },
+        outputs = {
+          require('ccc').output.hex,
+          require('ccc').output.css_rgb,
+          require('ccc').output.css_hsl,
+        },
+        alpha_show = 'auto',
+        recognize = { input = true, output = true },
+        preserve = false,
+        save_on_quit = false,
+        case = 'lower',
+      }
+
+      -- Keymaps for color picker
+      vim.keymap.set('n', '<leader>cp', '<cmd>CccPick<cr>', { desc = '[C]olor [P]icker' })
+      vim.keymap.set('n', '<leader>co', '<cmd>CccConvert<cr>', { desc = '[C]olor C[o]nvert' })
+      vim.keymap.set('n', '<leader>ct', '<cmd>CccHighlighterToggle<cr>', { desc = '[C]olor [T]oggle highlighting' })
+    end,
   },
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
