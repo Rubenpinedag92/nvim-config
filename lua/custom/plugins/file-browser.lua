@@ -1,33 +1,28 @@
 return {
-  'nvim-telescope/telescope-file-browser.nvim',
+  'nvim-neo-tree/neo-tree.nvim',
+  version = '*',
   dependencies = {
-    'nvim-telescope/telescope.nvim',
     'nvim-lua/plenary.nvim',
+    'nvim-tree/nvim-web-devicons',
+    'MunifTanjim/nui.nvim',
   },
   config = function()
-    require('telescope').load_extension 'file_browser'
-
-    -- Configurar telescope-file-browser
-    require('telescope').setup {
-      extensions = {
-        file_browser = {
-          theme = 'ivy',
-          hijack_netrw = true, -- Reemplaza netrw
+    require('neo-tree').setup {
+      filesystem = {
+        window = {
           mappings = {
-            ['i'] = {
-              -- Atajos en modo inserción
-            },
-            ['n'] = {
-              -- Atajos en modo normal
-            },
+            ['<cr>'] = 'open',
+            ['o'] = 'open',
+            ['<esc>'] = 'close_window',
           },
         },
+        hijack_netrw_behavior = 'open_default',
       },
     }
 
-    -- Atajos para el file browser
-    vim.keymap.set('n', '<leader>fb', ':Telescope file_browser<CR>', { desc = 'File browser' })
-    vim.keymap.set('n', '<leader>cf', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = 'File browser current dir' })
+    -- Keymaps
+    vim.keymap.set('n', '<leader>fb', ':Neotree toggle<CR>', { desc = 'Toggle NeoTree' })
+    vim.keymap.set('n', '<leader>cf', ':Neotree reveal<CR>', { desc = 'NeoTree reveal current file' })
 
     -- Atajos adicionales para crear archivos
     vim.keymap.set('n', '<leader>nf', ':edit ', { desc = 'New file anywhere' })
