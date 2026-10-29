@@ -9,14 +9,49 @@ return {
       'rcarriga/nvim-dap-ui',
       'theHamsta/nvim-dap-virtual-text',
       'nvim-neotest/nvim-nio',
+      'mason-org/mason.nvim',
+      'jay-babu/mason-nvim-dap.nvim',
+      'leoluz/nvim-dap-go',
+      'mfussenegger/nvim-dap-python',
     },
     config = function()
       local dap = require 'dap'
       local dapui = require 'dapui'
 
-      -- Configuración de nvim-dap-ui
-      dapui.setup()
+      require('mason-nvim-dap').setup {
+        ensure_installed = { 'python', 'delve' },
+        automatic_installation = true,
+        handlers = {},
+      }
 
+      require('dap-python').setup 'debugpy-adapter'
+
+      require('dap-go').setup {
+        delve = {
+          detached = vim.fn.has 'win32' == 0,
+        },
+      }
+
+      -- Configuración de nvim-dap-ui
+      dapui.setup {
+        layouts = {
+          {
+            elements = {
+              { id = 'scopes', size = 0.35 },
+              { id = 'breakpoints', size = 0.15 },
+              { id = 'stacks', size = 0.25 },
+              { id = 'watches', size = 0.25 },
+            },
+            size = 35,
+            position = 'right',
+          },
+          {
+            elements = { 'console', 'repl' },
+            size = 10,
+            position = 'bottom',
+          },
+        },
+      }
       -- Configuración de virtual text
       require('nvim-dap-virtual-text').setup()
 
