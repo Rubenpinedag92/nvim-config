@@ -169,6 +169,12 @@ vim.o.confirm = true
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- Ctrl+Enter abre una línea debajo sin desplazar el cierre de pares como ().
+vim.keymap.set('i', '<C-CR>', '<C-o>o', { desc = 'Abrir línea debajo' })
+vim.keymap.set('i', '<M-CR>', '<C-o>o', { desc = 'Abrir línea debajo' })
+-- Algunas terminales envían Alt+Enter como Esc seguido de Enter.
+vim.keymap.set('i', '<Esc><CR>', '<C-o>o', { desc = 'Abrir línea debajo' })
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
